@@ -6,9 +6,9 @@ buildscript {
     }
 }
 
-apply plugin:  'groovy'
-apply plugin:  'java'
-apply plugin:  'maven-publish'
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 allprojects {
     def props = new Properties()
@@ -23,8 +23,8 @@ properties.load(new FileInputStream("${rootDir}/dependencies.list"))
 
 def syncVersion = properties.getProperty('REALM_SYNC_VERSION')
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenLocal()
@@ -44,6 +44,9 @@ sourceSets {
         java {
             srcDir 'build/generated-src/main/java'
         }
+        groovy {
+            srcDirs = ['src/main/groovy']
+        }
     }
 }
 
@@ -53,6 +56,9 @@ dependencies {
     implementation "io.realm:realm-annotations:3.7.2"
     provided 'com.android.tools.build:gradle:2.1.0'
     implementation 'org.javassist:javassist:3.20.0-GA'
+
+    // Fix CompileGroovy Error : package javax.xml.bind does not exist
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
 
     testImplementation('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude module: 'groovy-all'
