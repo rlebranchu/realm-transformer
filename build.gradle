@@ -86,6 +86,10 @@ wrapper {
     gradleVersion = project.gradleVersion
 }
 
+jar {
+    from sourceSets.main.allSource
+}
+
 afterEvaluate {
     publishing {
         publications {
