@@ -1,6 +1,7 @@
+
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://artifactory.appodeal.com/appodeal-public/" }
     }
@@ -28,7 +29,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
     maven { url "https://artifactory.appodeal.com/appodeal-public/" }
 }
 
@@ -44,23 +45,18 @@ sourceSets {
         java {
             srcDir 'build/generated-src/main/java'
         }
-        groovy {
-            srcDirs = ['src/main/groovy']
-        }
     }
 }
 
 dependencies {
-    implementation localGroovy()
+    implementation("org.codehaus.groovy:groovy-all:3.0.22")
     implementation gradleApi()
     implementation "io.realm:realm-annotations:3.7.2"
     provided 'com.android.tools.build:gradle:2.1.0'
     implementation 'org.javassist:javassist:3.20.0-GA'
-
-    // Fix CompileGroovy Error : package javax.xml.bind does not exist
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
 
-    testImplementation('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testImplementation('org.spockframework:spock-core:2.0-M2-groovy-3.0') {
         exclude module: 'groovy-all'
     }
 }
@@ -84,10 +80,6 @@ compileJava.dependsOn generateVersionClass
 
 wrapper {
     gradleVersion = project.gradleVersion
-}
-
-jar {
-    from sourceSets.main.allSource
 }
 
 afterEvaluate {
